@@ -1,11 +1,10 @@
-import { Pinecone, Vector, utils as PineconeUtils } from '@pinecone-database/pinecone';
+import { Pinecone, PineconeRecord } from '@pinecone-database/pinecone';
 import { downloadFromS3 } from './s3-server';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { Document, RecursiveCharacterTextSplitter } from '@pinecone-database/doc-splitter';
 import { getEmbeddings } from './embeddings';
 import md5 from 'md5';
 import { convertToAscii } from './utils';
-import { VectorOperationsApi } from '@pinecone-database/pinecone/dist/pinecone-generated-ts-fetch';
 
 export const getPineconeClient = () => {
     return new Pinecone({
@@ -39,12 +38,12 @@ export async function loadS3IntoPinecone(fileKey: string) {  // the fileKey is p
 
     // 4. upload to pinecone
     const client = await getPineconeClient();
-    const pineconeIndex = client.Index('chatpdf-rj');
-    VectorOperationsApi
-    console.log('Inserting vectors into PindconeDB..');
+    const pineconeIndex = await client.index('chatpdf-rj');
+    const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
 
-    const namespace = convertToAscii(fileKey);
-    PineconeUtils.chunkedUpsert(pineconeIndex, vectors, namespace, 10);
+    console.log('Inserting vectors into PineconeDB..');
+
+    await namespace.upsert(vectors);
     
     return documents[0];
 }
@@ -61,7 +60,7 @@ async function embedDocument(doc: Document) {
                 text: doc.metadata.text,
                 pageNumber: doc.metadata.pageNumber
             }
-        } as Vector;
+        } as PineconeRecord;
     } catch(error) {
         console.log('error embedding document', error);
         throw error;
@@ -84,9 +83,9 @@ async function prepareDocument(page: PDFPage) {
             pageContent,
             metadata: {
                 pageNumber: metadata.loc.pageNumber,
-                text: truncateStringByBytes(pageContent, 36000)
-            }
-        })
+                text: truncateStringByBytes(pageContent, 36000),
+            },
+        }),
     ]);
     return docs;
 }
