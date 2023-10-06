@@ -41,7 +41,7 @@ export async function loadS3IntoPinecone(fileKey: string) {  // the fileKey is p
     const pineconeIndex = await client.index('chatpdf-rj');
     const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
 
-    console.log('Inserting vectors into PineconeDB..');
+    console.log('Inserting vectors into PinconeDB..');
 
     await namespace.upsert(vectors);
     
