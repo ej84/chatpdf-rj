@@ -3,9 +3,9 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image'
 import Link from 'next/link';
 import { LogIn } from 'lucide-react';
-import FileUpload from '@/components/ui/FileUpload';
+import FileUpload from '@/components/FileUpload';
 
-
+// Main Page
 export default async function Home() {
   const { userId } = await auth();
   const isAuth = !!userId;

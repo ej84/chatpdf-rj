@@ -2,6 +2,9 @@ import { integer, pgEnum, pgTable, serial, text, timestamp, varchar } from 'driz
 
 export const userSystemEnum = pgEnum('user_system_enum', ['system', 'user']);
 
+// get proper type of chat.
+export type DrizzleChat = typeof chats.$inferSelect;
+
 export const chats = pgTable('chats', {
     id: serial('id').primaryKey(),
     pdfName: text('pdf_name').notNull(),
