@@ -1,3 +1,5 @@
+// Route for create-chat
+
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { loadS3IntoPinecone } from "@/lib/pinecone";
@@ -5,7 +7,7 @@ import { getS3url } from "@/lib/s3";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-// /api/create-chat route
+
 export async function POST(req: Request, res: Response) {
     const {userId} = await auth();
     if (!userId) {
