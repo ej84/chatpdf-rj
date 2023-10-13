@@ -1,13 +1,13 @@
 // Route for Chat
 
 import { Configuration, OpenAIApi } from "openai-edge";
-import { OpenAIStream, StreamingTextResponse } from 'ai';
+import { Message, OpenAIStream, StreamingTextResponse } from 'ai';
 import { getContext } from "@/lib/context";
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
-import { Message } from "ai/react";
+//import { Message } from "ai/react";
 
 export const runtime = 'edge';
 
