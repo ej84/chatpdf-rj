@@ -14,10 +14,12 @@ export async function getMatchesFromEmbeddings(embeddings: number[], fileKey: st
         const namespace = pineconeIndex.namespace(convertToAscii(fileKey));
         const queryResult = await namespace.query({
             topK: 5,
-            vector: embeddings,
+            vector:embeddings,
             includeMetadata: true,
         });
+        console.log("Processing 2...");
         return queryResult.matches || [];
+        
     }
     catch (error) {
         console.log("error querying embeddings:", error);
@@ -36,10 +38,10 @@ export async function getContext(query: string, fileKey: string) {
     // Metadata Type
     type Metadata = {
         text: string,
-        pageNumber: number
+        pageNumber: number;
     };
 
-    let docs = qualifyingDocs.map(match => (match.metadata as Metadata).text);
+    let docs = qualifyingDocs.map((match) => (match.metadata as Metadata).text);
     // 5 vectors per page
     return docs.join('\n').substring(0, 3000); // Limits characters up to 3000 to prevent overfeeding.
 }

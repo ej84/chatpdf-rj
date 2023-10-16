@@ -12,8 +12,8 @@ const ChatComponent = ({chatId}: Props) => {
     const {input, handleInputChange, handleSubmit, messages} = useChat({
         api: '/api/chat',
         body: {
-            chatId
-        }
+            chatId,
+        },
     });
     React.useEffect(()=>{
         const messageContainer = document.getElementById('messageContainer');
@@ -23,7 +23,7 @@ const ChatComponent = ({chatId}: Props) => {
                 behavior: 'smooth',
             });
         }
-    }, [messages])
+    }, [messages]);
     return (
     <div className='relative max-h-screen overflow-scroll' id="messageContainer">
         {/* Header */}

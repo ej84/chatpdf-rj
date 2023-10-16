@@ -58,8 +58,8 @@ async function embedDocument(doc: Document) {
             values: embeddings,
             metadata: {
                 text: doc.metadata.text,
-                pageNumber: doc.metadata.pageNumber
-            }
+                pageNumber: doc.metadata.pageNumber,
+            },
         } as PineconeRecord;
     } catch(error) {
         console.log('error embedding document', error);

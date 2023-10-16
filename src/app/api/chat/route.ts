@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         const fileKey = _chats[0].fileKey;
         const lastMessage = messages[messages.length - 1];
         const context = await getContext(lastMessage.content, fileKey);
-        console.log(lastMessage.content);
+        //console.log(lastMessage.content);
         const prompt = {
             role: 'system',
             content: `AI assistant is a brand new, powerful, human-like artificial intelligence.
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
             messages: [
-                prompt, ...messages.filter((message: Message) => message.role === 'user')
+                prompt, ...messages.filter((message: Message) => message.role === 'user'),
             ],
             stream: true,
         });
