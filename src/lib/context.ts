@@ -17,7 +17,6 @@ export async function getMatchesFromEmbeddings(embeddings: number[], fileKey: st
             vector:embeddings,
             includeMetadata: true,
         });
-        console.log("Processing 2...");
         return queryResult.matches || [];
         
     }
